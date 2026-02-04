@@ -10,18 +10,101 @@ This file provides context and guidelines for AI assistants working with the Inb
 
 InboxOwl is [TODO: Add project description - what does InboxOwl do?]
 
+## Development Methodology
+
+**InboxOwl follows a Specification and Test-Driven Development (Spec+TDD) approach:**
+
+1. **Architecture First** - Design system architecture before components
+2. **Specification Driven** - Write detailed specs before design
+3. **Design Before Code** - Create detailed designs before implementation
+4. **Test First** - Generate unit tests before writing logic
+5. **Implement Last** - Write code to make tests pass
+
+See `docs/PROJECT_STRUCTURE.md` for detailed workflow and structure.
+
 ## Project Structure
 
 ```
 InboxOwl/
-├── LICENSE           # MIT License
-├── README.md         # Project README
-└── CLAUDE.md         # This file - AI assistant guidelines
+├── docs/                      # All documentation and design specs
+│   ├── architecture/         # System architecture documentation
+│   ├── specs/               # Component specifications
+│   │   ├── components/      # Individual component specs
+│   │   ├── api/            # API specifications
+│   │   └── database/       # Database schemas
+│   ├── design/             # Detailed design documents
+│   │   ├── component-designs/  # Per-component designs
+│   │   └── decisions/      # Architecture Decision Records (ADRs)
+│   ├── templates/          # Document templates
+│   ├── PROJECT_STRUCTURE.md  # Detailed structure guide
+│   └── TRACEABILITY.md     # Spec-Design-Test-Code tracking
+│
+├── src/                    # Source code
+│   ├── components/        # Main components/modules
+│   ├── utils/            # Shared utilities
+│   ├── types/            # Shared type definitions
+│   └── config/           # Configuration
+│
+├── tests/                 # Test files (mirrors src structure)
+│   ├── unit/            # Unit tests
+│   ├── integration/     # Integration tests
+│   ├── e2e/            # End-to-end tests
+│   ├── fixtures/       # Test data
+│   └── helpers/        # Test utilities
+│
+├── scripts/              # Build and utility scripts
+├── config/              # Project configuration
+├── CLAUDE.md            # This file
+├── README.md            # Project README
+└── LICENSE              # MIT License
 ```
 
-[TODO: Update this structure as the project grows]
+**Important Files:**
+- `docs/PROJECT_STRUCTURE.md` - Complete structure and workflow guide
+- `docs/TRACEABILITY.md` - Component development tracking
+- `docs/templates/` - Templates for specs, designs, and ADRs
 
 ## Development Guidelines
+
+### Spec+TDD Workflow
+
+**CRITICAL: Follow this workflow for ALL new components:**
+
+1. **Architecture Phase**
+   - Create/update system design in `docs/architecture/`
+   - Document key decisions as ADRs in `docs/design/decisions/`
+   - Review and approve architecture
+
+2. **Specification Phase**
+   - Use template: `docs/templates/component-spec-template.md`
+   - Create spec in `docs/specs/components/[component-name].spec.md`
+   - Define interfaces, behavior, and test requirements
+   - Get spec reviewed and approved
+
+3. **Design Phase**
+   - Use template: `docs/templates/component-design-template.md`
+   - Create design in `docs/design/component-designs/[component-name]-design.md`
+   - Detail implementation approach, algorithms, data structures
+   - Get design reviewed and approved
+
+4. **Test Generation Phase**
+   - Create test file in `tests/unit/` (mirror src structure)
+   - Write test cases based on spec requirements
+   - Tests should fail initially (Red state)
+   - Review test coverage
+
+5. **Implementation Phase**
+   - Create source file in `src/` (mirror test structure)
+   - Implement to make tests pass (Green state)
+   - Refactor while keeping tests green
+   - Code review
+
+6. **Integration Phase**
+   - Create integration tests in `tests/integration/`
+   - Verify components work together
+   - Update `docs/TRACEABILITY.md`
+
+**Never skip steps. Never implement before writing tests.**
 
 ### Code Style & Conventions
 
@@ -39,9 +122,14 @@ InboxOwl/
 
 ### Testing
 
-- [TODO: Add testing framework and practices]
-- [TODO: Add test coverage requirements]
-- [TODO: Add testing commands]
+- **Framework:** [TODO: Add testing framework - Jest, pytest, etc.]
+- **Coverage Requirement:** Minimum [TODO]% unit test coverage
+- **Test Location:** Tests mirror `src/` structure in `tests/unit/`
+- **Naming:** `[component-name].test.[ext]`
+- **Commands:**
+  ```bash
+  # [TODO: Add test commands]
+  ```
 
 ### Dependencies & Environment
 
@@ -110,22 +198,51 @@ InboxOwl/
 
 ## AI Assistant Notes
 
-When working on this codebase:
+### CRITICAL RULES for AI Assistants
 
-1. **Always read existing code** before making changes
-2. **Follow the established patterns** in the codebase
+**This project uses Spec+TDD. You MUST follow this workflow:**
+
+1. **NEVER write implementation code before:**
+   - Writing the specification
+   - Creating the design document
+   - Writing unit tests that fail
+
+2. **For new components, ALWAYS:**
+   - Check `docs/TRACEABILITY.md` for existing work
+   - Use templates from `docs/templates/`
+   - Follow the 6-phase workflow (Arch → Spec → Design → Test → Impl → Integration)
+   - Update traceability matrix after each phase
+
+3. **For changes to existing components:**
+   - Read the spec first (`docs/specs/`)
+   - Check the design (`docs/design/`)
+   - Update tests before updating implementation
+   - Update documentation to match changes
+
+4. **Quality Gates:**
+   - ✅ Spec reviewed before design
+   - ✅ Design reviewed before tests
+   - ✅ Tests written (and failing) before implementation
+   - ✅ All tests passing before PR
+   - ✅ Documentation updated
+
+### When Working on InboxOwl
+
+1. **Always read existing docs** before making changes
+2. **Follow the Spec+TDD workflow** - no exceptions
 3. **Keep solutions simple** - avoid over-engineering
-4. **Test changes** before committing
-5. **Update this file** as you learn more about the project structure and conventions
+4. **Update traceability** - keep `docs/TRACEABILITY.md` current
+5. **Use templates** - they ensure consistency
 
 ### Current Project Status
 
-This appears to be an early-stage project. When making contributions:
+This is an early-stage project following strict Spec+TDD methodology. When making contributions:
 
-- Ask for clarification on project goals and architecture before implementing major features
-- Propose architectural decisions rather than assuming
-- Keep initial implementations simple and extensible
-- Document as you build
+- **Ask first** before implementing major features
+- **Propose architecture** using ADR template
+- **Start with specs** not with code
+- **Document everything** as you build
+- **Track all work** in traceability matrix
 
 ---
 
