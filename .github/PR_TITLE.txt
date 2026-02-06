@@ -1,1 +1,0 @@
-Set up Spec+TDD project structure and documentation framework

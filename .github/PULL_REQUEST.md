@@ -1,3 +1,5 @@
+# Set up Spec+TDD project structure and documentation framework
+
 ## Summary
 
 This PR establishes a comprehensive Specification and Test-Driven Development (Spec+TDD) framework for InboxOwl, ensuring rigorous quality standards and maintainability from day one.
