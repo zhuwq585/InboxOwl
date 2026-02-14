@@ -68,38 +68,55 @@ InboxOwl/
 
 ### Spec+TDD Workflow
 
-**CRITICAL: Follow this workflow for ALL new components:**
+**CRITICAL: Architecture is done ONCE at project level, then each component follows a 5-phase workflow.**
 
-1. **Architecture Phase**
-   - Create/update system design in `docs/architecture/`
-   - Document key decisions as ADRs in `docs/design/decisions/`
-   - Review and approve architecture
+#### Phase 0: System Architecture (PROJECT-LEVEL - Done Once)
 
-2. **Specification Phase**
+**Do this FIRST before any component work:**
+
+- Create system design in `docs/architecture/`
+  - Overall system architecture
+  - Component identification and boundaries
+  - Component interfaces and interactions
+  - Data flow diagrams
+- Document key decisions as ADRs in `docs/design/decisions/`
+  - Technology choices (database, framework, language, etc.)
+  - Architectural patterns
+  - Major design trade-offs
+- Review and approve architecture
+- **Output:** List of components to build
+
+**This phase answers:** What components exist? How do they interact? What technologies do we use?
+
+#### Per-Component Workflow (Repeat for each component)
+
+**Once architecture identifies components, follow this 5-phase workflow for EACH component:**
+
+1. **Specification Phase**
    - Use template: `docs/templates/component-spec-template.md`
    - Create spec in `docs/specs/components/[component-name].spec.md`
    - Define interfaces, behavior, and test requirements
    - Get spec reviewed and approved
 
-3. **Design Phase**
+2. **Design Phase**
    - Use template: `docs/templates/component-design-template.md`
    - Create design in `docs/design/component-designs/[component-name]-design.md`
    - Detail implementation approach, algorithms, data structures
    - Get design reviewed and approved
 
-4. **Test Generation Phase**
+3. **Test Generation Phase**
    - Create test file in `tests/unit/` (mirror src structure)
    - Write test cases based on spec requirements
    - Tests should fail initially (Red state)
    - Review test coverage
 
-5. **Implementation Phase**
+4. **Implementation Phase**
    - Create source file in `src/` (mirror test structure)
    - Implement to make tests pass (Green state)
    - Refactor while keeping tests green
    - Code review
 
-6. **Integration Phase**
+5. **Integration Phase**
    - Create integration tests in `tests/integration/`
    - Verify components work together
    - Update `docs/TRACEABILITY.md`
@@ -208,18 +225,24 @@ InboxOwl/
    - Writing unit tests that fail
 
 2. **For new components, ALWAYS:**
+   - Verify system architecture is complete in `docs/architecture/`
    - Check `docs/TRACEABILITY.md` for existing work
    - Use templates from `docs/templates/`
-   - Follow the 6-phase workflow (Arch → Spec → Design → Test → Impl → Integration)
+   - Follow the 5-phase per-component workflow (Spec → Design → Test → Impl → Integration)
    - Update traceability matrix after each phase
 
-3. **For changes to existing components:**
+3. **For new projects (no architecture yet):**
+   - Start with Phase 0: System Architecture (project-level)
+   - Identify all components before starting any component work
+   - Document architecture decisions as ADRs
+
+4. **For changes to existing components:**
    - Read the spec first (`docs/specs/`)
    - Check the design (`docs/design/`)
    - Update tests before updating implementation
    - Update documentation to match changes
 
-4. **Quality Gates:**
+5. **Quality Gates:**
    - ✅ Spec reviewed before design
    - ✅ Design reviewed before tests
    - ✅ Tests written (and failing) before implementation

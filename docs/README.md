@@ -11,23 +11,38 @@ Welcome to the InboxOwl documentation directory. This folder contains all specif
    - `/docs/PROJECT_STRUCTURE.md` - Detailed structure and workflow guide
    - `/docs/architecture/` - System architecture documents
 
-2. **Starting a new component:**
+2. **Starting a new project:**
+   - Complete Phase 0: System Architecture FIRST
+   - Identify all components before starting implementation
+   - Document architectural decisions as ADRs
+
+3. **Starting a new component:**
+   - Verify system architecture is complete
    - Copy template from `docs/templates/component-spec-template.md`
-   - Follow the Spec+TDD workflow (see below)
+   - Follow the per-component workflow (see below)
    - Update `docs/TRACEABILITY.md` as you progress
 
-3. **Making changes to existing components:**
+4. **Making changes to existing components:**
    - Read the spec in `docs/specs/components/`
    - Review the design in `docs/design/component-designs/`
    - Follow the update workflow (see below)
 
 ## Spec+TDD Workflow
 
+**Phase 0: System Architecture (PROJECT-LEVEL - Done Once)**
 ```
-┌─────────────┐
-│ Architecture│ → System design, ADRs
-└──────┬──────┘
-       ↓
+┌────────────────────────────────────┐
+│     System Architecture            │
+│  - System design, ADRs             │
+│  - Component identification        │
+│  - Technology decisions            │
+└────────────┬───────────────────────┘
+             ↓
+   Identifies: Component A, B, C...
+```
+
+**Per-Component Workflow (Repeat for Each Component)**
+```
 ┌─────────────┐
 │    Spec     │ → Component specification
 └──────┬──────┘
@@ -87,9 +102,12 @@ docs/
 **Purpose:** High-level system design and architectural decisions
 
 **When to create:**
-- Starting the project
+- **FIRST** - Before any component work (Phase 0)
+- Starting a new project
 - Major architectural changes
 - Adding new subsystems
+
+**CRITICAL:** Complete architecture BEFORE implementing any components. Architecture identifies WHAT components to build.
 
 ### Specifications
 **Location:** `docs/specs/components/`

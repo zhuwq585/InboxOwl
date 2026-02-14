@@ -105,42 +105,76 @@ InboxOwl/
 
 ## Development Workflow
 
-### Phase 1: Architecture & System Design
-1. Create/update documents in `docs/architecture/`
-2. Review and approve architecture decisions
-3. Document key decisions in `docs/design/decisions/` as ADRs
+**IMPORTANT:** Architecture is a PROJECT-LEVEL activity done ONCE. Component development follows a 5-phase workflow repeated for EACH component.
 
-### Phase 2: Component Specification
-1. For each component, create a spec in `docs/specs/components/`
-2. Spec should include:
+### Phase 0: System Architecture (PROJECT-LEVEL - Done Once)
+
+**Complete this BEFORE starting any component work:**
+
+1. Create system architecture in `docs/architecture/`
+   - `00-overview.md` - High-level system overview
+   - `01-system-design.md` - Overall system architecture
+   - `02-data-flow.md` - Data flow diagrams
+   - `03-tech-stack.md` - Technology choices
+   - Define all component boundaries and interfaces
+   - Identify all components that need to be built
+
+2. Document key architecture decisions in `docs/design/decisions/` as ADRs
+   - Database choice
+   - Framework/language selection
+   - Architectural patterns
+   - Major design trade-offs
+
+3. Review and approve architecture
+
+**Output:** Complete list of components to implement
+
+**This answers:** What components exist? How do they interact? What are the component boundaries?
+
+---
+
+### Per-Component Workflow (Repeat for Each Component)
+
+Once architecture is complete and components are identified, follow this 5-phase workflow for EACH component:
+
+#### Phase 1: Component Specification
+1. Create spec in `docs/specs/components/[component-name].spec.md`
+2. Use template: `docs/templates/component-spec-template.md`
+3. Spec should include:
    - Purpose and responsibilities
-   - Input/output contracts
+   - Input/output contracts (public API)
    - Dependencies
    - Error handling requirements
    - Performance requirements
+   - Test requirements
 
-### Phase 3: Component Design
-1. Create detailed design doc in `docs/design/component-designs/`
-2. Include:
+#### Phase 2: Component Design
+1. Create design doc in `docs/design/component-designs/[component-name]-design.md`
+2. Use template: `docs/templates/component-design-template.md`
+3. Include:
    - Class/module structure
-   - Function signatures
+   - Function signatures (internal + public)
    - Data structures
    - Algorithm choices
+   - Implementation approach
 
-### Phase 4: Test Generation
+#### Phase 3: Test Generation
 1. Create test file in `tests/unit/` matching the component path
 2. Write test cases based on spec requirements
 3. Tests should be runnable but fail (red state)
+4. Verify test coverage of all spec requirements
 
-### Phase 5: Implementation
+#### Phase 4: Implementation
 1. Create source file in `src/` matching the component path
 2. Implement to make tests pass (green state)
 3. Refactor as needed while keeping tests green
+4. Code review
 
-### Phase 6: Integration
+#### Phase 5: Integration
 1. Create integration tests in `tests/integration/`
 2. Verify components work together
-3. Update documentation as needed
+3. Update `docs/TRACEABILITY.md`
+4. Update documentation as needed
 
 ## Document Templates
 

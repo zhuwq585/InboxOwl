@@ -3,35 +3,70 @@
 ## 🎯 Overview
 
 InboxOwl uses **Specification and Test-Driven Development (Spec+TDD)**. This means:
+- Architecture first (project-level, done once)
 - Write specs before design
 - Write design before tests
 - Write tests before code
 - **Never skip steps!**
 
-## 📋 The 6-Phase Workflow
+## 📋 The Workflow
 
+**Phase 0 (Project-Level, Done Once):**
 ```
-1. Architecture → 2. Spec → 3. Design → 4. Tests → 5. Code → 6. Integration
+System Architecture → Identifies Components A, B, C...
 ```
 
-## 🚀 Starting Your First Component
+**Per-Component (Repeat for Each):**
+```
+1. Spec → 2. Design → 3. Tests → 4. Code → 5. Integration
+```
 
-### Step 1: Architecture (if needed)
-**When:** Starting project or adding major subsystems
+## 🏗️ Phase 0: System Architecture (Do This First!)
+
+**CRITICAL:** Complete system architecture BEFORE starting any component work.
+
+### When to do this:
+- Starting a new project
+- Adding major subsystems
+- Making significant architectural changes
+
+### What to create:
 
 ```bash
-# Create system design documents
+# Create system architecture documents
 cd docs/architecture/
-# Edit 00-overview.md, 01-system-design.md, etc.
+
+# Edit these files:
+# 00-overview.md        - High-level system overview
+# 01-system-design.md   - Overall system architecture
+# 02-data-flow.md       - Data flow diagrams
+# 03-tech-stack.md      - Technology choices and rationale
 ```
 
-**Create an ADR if making architectural decisions:**
+**Create ADRs for all architectural decisions:**
 ```bash
-cp docs/templates/adr-template.md docs/design/decisions/001-your-decision.md
-# Fill in the ADR
+cp docs/templates/adr-template.md docs/design/decisions/001-database-choice.md
+cp docs/templates/adr-template.md docs/design/decisions/002-framework-choice.md
+# Fill in each ADR
 ```
 
-### Step 2: Write Specification
+**Architecture checklist:**
+- [ ] System overview complete?
+- [ ] All components identified?
+- [ ] Component boundaries defined?
+- [ ] Component interfaces specified?
+- [ ] Data flow documented?
+- [ ] Technology decisions made (with ADRs)?
+
+**Output:** A complete list of components that need to be built.
+
+---
+
+## 🚀 Per-Component Workflow
+
+Once architecture is complete, follow this 5-step process for EACH component:
+
+### Step 1: Write Specification
 **When:** Before every new component
 
 ```bash
@@ -63,7 +98,7 @@ cp docs/templates/component-spec-template.md \
 - [ ] Test requirements listed?
 - [ ] Dependencies identified?
 
-### Step 3: Write Design
+### Step 2: Write Design
 **When:** After spec is approved
 
 ```bash
@@ -93,7 +128,7 @@ cp docs/templates/component-design-template.md \
 - [ ] Data structures defined?
 - [ ] Error handling planned?
 
-### Step 4: Generate Tests
+### Step 3: Generate Tests
 **When:** After design is approved, before implementation
 
 ```bash
@@ -118,7 +153,7 @@ cp docs/templates/component-design-template.md \
 # Expect: All tests FAIL (red state) ❌
 ```
 
-### Step 5: Implement Component
+### Step 4: Implement Component
 **When:** After tests are written and failing
 
 ```bash
@@ -143,7 +178,7 @@ cp docs/templates/component-design-template.md \
 # Expect: All tests PASS (green state) ✅
 ```
 
-### Step 6: Integration
+### Step 5: Integration
 **When:** After component implementation is complete
 
 ```bash
@@ -175,7 +210,44 @@ cd docs/
 
 ## 🎓 Example Walkthrough
 
-Let's say you want to create an "Email Parser" component:
+Let's say you're building an email processing system.
+
+### Phase 0: Architecture (Done First)
+
+```bash
+# Create architecture documents
+cd docs/architecture/
+
+# Define system:
+# - Email Parser component
+# - Notification Service component
+# - Storage component
+# - API Gateway component
+```
+
+Fill in `01-system-design.md`:
+```markdown
+# System Design
+
+## Components
+1. Email Parser - Parses raw emails
+2. Notification Service - Sends notifications
+3. Storage - Persists data
+4. API Gateway - External interface
+
+## Component Interactions
+API Gateway → Email Parser → Storage
+              ↓
+         Notification Service
+```
+
+Create ADRs for tech decisions (database, language, etc.)
+
+**Output:** Identified 4 components to build. Let's start with "Email Parser"...
+
+---
+
+Now for EACH component, follow the 5-phase workflow. Example for "Email Parser":
 
 ### Phase 1: Spec
 ```bash
@@ -260,13 +332,15 @@ Run: **Expect PASS ✅**
 ## 🔍 Common Mistakes to Avoid
 
 ❌ **DON'T:**
+- Start component work before architecture is complete
 - Skip writing specs
 - Start coding before tests
 - Skip the design phase
 - Forget to update traceability
 
 ✅ **DO:**
-- Follow all 6 phases in order
+- Complete Phase 0 (Architecture) before any component work
+- Follow all 5 per-component phases in order
 - Write tests that fail first
 - Keep documentation updated
 - Review each phase before proceeding
@@ -284,16 +358,25 @@ Run: **Expect PASS ✅**
 ## 🎯 Decision Tree
 
 ```
-Need to add functionality?
+Starting a new project?
 │
-├─ Is it a new component?
-│  ├─ YES → Follow full 6-phase workflow
-│  └─ NO → Is it a significant change?
-│     ├─ YES → Update spec, design, tests, then code
-│     └─ NO → Update tests, then code
+├─ YES → Phase 0: System Architecture first
+│         (identify all components)
 │
-└─ Is it an architectural decision?
-   └─ YES → Create ADR first
+└─ NO → Need to add functionality?
+   │
+   ├─ Is architecture complete?
+   │  ├─ NO → Complete Phase 0 first!
+   │  └─ YES → Continue below...
+   │
+   ├─ Is it a new component?
+   │  ├─ YES → Follow 5-phase per-component workflow
+   │  └─ NO → Is it a significant change?
+   │     ├─ YES → Update spec, design, tests, then code
+   │     └─ NO → Update tests, then code
+   │
+   └─ Is it an architectural decision?
+      └─ YES → Create ADR first
 ```
 
 ## 🆘 Getting Help
@@ -306,8 +389,12 @@ Need to add functionality?
 
 ## ✅ Final Checklist
 
-Before considering a component "done":
+**Before starting ANY component work:**
+- [ ] System architecture complete (Phase 0)
+- [ ] All components identified
+- [ ] Component boundaries defined
 
+**Before considering a component "done:"**
 - [ ] Spec written and reviewed
 - [ ] Design document written and reviewed
 - [ ] Unit tests written and passing
